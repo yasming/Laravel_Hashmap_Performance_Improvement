@@ -2,7 +2,8 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Candidate\Candidate;
+use App\Models\Developer\Developer;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -12,11 +13,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        Candidate::factory(100000)->create();
+        Developer::factory()->count(100000)
+            ->state(function () {
+                return ['email' => Candidate::query()->inRandomOrder()->first()->email];
+            })->create();
     }
 }
